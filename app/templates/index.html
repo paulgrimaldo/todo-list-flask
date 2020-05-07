@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macros %}
+
+{% block title %}
+    {{ super() }}
+    Home
+{% endblock %}
+
+{% block content %}
+    <h1 class="mt-5 text-center"><a href="/" style="color: black; text-decoration: none;">Todo List</a></h1>
+
+    <div class="container">
+        <h3><i class="fas fa-plus"></i> New Todo</h3>
+        <form action="{{ url_for('todos.index') }}" method="post">
+            {{ todo_form.csrf_token }}
+            <div class="form-group">
+                {{ todo_form.description.label }}
+                {{ todo_form.description(class_='form-control') }}
+            </div>
+            {#{{ todo_form.submit(class_='btn btn-primary') }}#}
+            <button class="btn btn-success" type="submit">
+                <i class="fas fa-save"></i> Save
+            </button>
+        </form>
+    </div>
+
+    <ul class="list-group mt-5">
+        {% for todo in todos %}
+            {{ macros.render_todo(todo,delete_form,update_form) }}
+        {% endfor %}
+    </ul>
+{% endblock %}
